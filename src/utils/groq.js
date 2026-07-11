@@ -102,14 +102,13 @@ async function callGroqWithJsonRetry(apiKey, model, systemPrompt, userPrompt, te
 export async function generatePaper(apiKey, model, recentExclusions = []) {
   const seed = `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   
-  const systemPrompt = `You are a question-paper setter for the TCS NQT Foundation Verbal Ability section (2026 pattern). Generate ONE complete, fresh paper. Never reuse sentences, topics, or scenarios from any paper you have generated before in this conversation — treat every call as an independent, first-time paper.
+  const systemPromptPart1 = `You are a question-paper setter for the TCS NQT Foundation Verbal Ability section (2026 pattern). Generate exactly 20 fresh sentence completion questions.
 
-SEED: ${seed}   // forces variety, ignore its value otherwise
+SEED: ${seed}
 
 OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matching this exact schema:
 
 {
-  "paper_id": "string, uuid",
   "sentence_completion": [
     {
       "id": 1,
@@ -120,7 +119,44 @@ OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matchi
       "explanation": "one sentence on why this is correct, for later review"
     }
     // ... exactly 20 items, ids 1-20
-  ],
+  ]
+}
+
+STRICT CONTENT & VARIETY RULES:
+1. Sentence completion: mix of vocabulary-in-context, collocations, idioms, analogies, tense/preposition agreement, and workplace-register word choice — matching real TCS NQT sentence-completion style.
+2. Shuffled Difficulty: Roughly 40% basic, 40% moderate, 20% typical/harder, shuffled in order (don't cluster all hard ones together).
+3. Context Variety: Each of the 20 questions MUST feature a scenario from a different corporate department or context from the list of 20 below. No two questions may share the same department context:
+   - 1. Customer Support / Service
+   - 2. Product Design / UX
+   - 3. Software Development / Engineering
+   - 4. Finance / Budgeting / Accounting
+   - 5. Legal / Corporate Law
+   - 6. Supply Chain / Logistics / Shipping
+   - 7. Public Relations (PR) / Brand Image
+   - 8. Cybersecurity / Network Security
+   - 9. Corporate Strategy / Board Leadership
+   - 10. Operations / Facilities / Office Management
+   - 11. Procurement / Vendor Sourcing
+   - 12. Sales / Account Management
+   - 13. Quality Control / QA Testing
+   - 14. Research & Development / R&D / Innovation
+   - 15. Workplace Safety / Occupational Health
+   - 16. Business Intelligence / Data Analytics
+   - 17. Internal Audit / Regulatory Compliance
+   - 18. Marketing / Social Media Campaign
+   - 19. Human Resources (HR) / Recruitment / Employee Relations
+   - 20. Project Management / Agile Operations
+4. Structural Uniqueness: Do not repeat similar sentence patterns, subject phrases, or templates (e.g. do not repeat "The IT department is responsible for...", "The marketing team is looking for..."). Each sentence must be structurally, grammatically, and contextually distinct.
+5. Answerability: Each sentence must be answerable in a single word or short phrase within 25 seconds by someone with intermediate English — no ambiguous blanks with many equally valid but unrelated answers.`;
+
+  const systemPromptPart2 = `You are a question-paper setter for the TCS NQT Foundation Verbal Ability section (2026 pattern). Generate exactly 4 passage recall paragraphs and 1 email writing scenario.
+
+SEED: ${seed}
+
+OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matching this exact schema:
+
+{
+  "paper_id": "string, uuid",
   "passage_recall": [
     {
       "id": 21,
@@ -131,7 +167,7 @@ OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matchi
   ],
   "email_writing": {
     "id": 25,
-    "scenario": "2-4 sentence workplace situation requiring a formal/professional email",
+    "scenario": "2-4 workplace situation requiring a formal/professional email. The scenario must explicitly require the candidate to write an email of at least 100 to 150 words.",
     "recipient_role": "e.g. manager, HR, client, vendor",
     "required_elements": ["element the email must contain, e.g. a specific date", "a request", "a reason", "a polite close"],
     "tone": "formal | semi-formal"
@@ -139,21 +175,35 @@ OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matchi
 }
 
 CONTENT RULES:
-- Sentence completion: mix of vocabulary-in-context, collocations, idioms, analogies, tense/preposition agreement, and workplace-register word choice — matching real TCS NQT sentence-completion style, not generic grammar-book fill-blanks. Roughly 40% basic, 40% moderate, 20% typical/harder, shuffled in order (don't cluster all hard ones together).
-- Sentence completion uniqueness: Ensure every single one of the 20 sentence completion questions has a completely unique target vocabulary word, sentence theme, and grammatical construction. Do not repeat similar sentences, identical blanks, or closely related vocabulary words within the same paper.
-- Each sentence must be answerable in a single word or short phrase within 25 seconds by someone with intermediate English — no ambiguous blanks with many equally valid but unrelated answers.
-- Passage recall paragraphs: self-contained, no external knowledge needed, written so a careful reader could reconstruct the gist (not exact wording) after one 30-second read. Ensure the word count is strictly between 90-130 words.
-- Email scenario: realistic corporate situations (delay notification, requesting leave/extension, escalating an issue, project handoff, thanking/following up, declining a request professionally). Do not repeat the same scenario type twice within one paper (n/a here, only one) or across calls if you can infer recent history from the seed. The scenario must explicitly require the candidate to write an email of at least 100 to 150 words.
-- Do not include any content unrelated to workplace/general-interest English; no coding, no domain-specific jargon requiring niche background knowledge.`;
+1. Passage recall paragraphs: self-contained, no external knowledge needed, written so a careful reader could reconstruct the gist (not exact wording) after one 30-second read. Ensure the word count is strictly between 90-130 words.
+2. Email scenario: realistic corporate situations (delay notification, requesting leave/extension, escalating an issue, project handoff, thanking/following up, declining a request professionally). Do not repeat the same scenario type twice across calls if you can infer recent history from the seed. The scenario must explicitly require the candidate to write an email of at least 100 to 150 words.
+3. Do not include any content unrelated to workplace/general-interest English; no coding, no domain-specific jargon requiring niche background knowledge.`;
 
-  const userPrompt = `Generate a fresh practice paper. Make sure to adhere to all content rules. ${
+  const userPromptPart1 = `Generate exactly 20 unique sentence completion questions. Adhere strictly to the 20 distinct contexts list. ${
     recentExclusions.length > 0
       ? `Avoid topics, scenarios, or correct answers related to or matching any of these specific terms/words: ${recentExclusions.join(', ')}.`
       : ''
   }`;
 
-  const paper = await callGroqWithJsonRetry(apiKey, model, systemPrompt, userPrompt, 0.9, 2);
-  
+  const userPromptPart2 = `Generate exactly 4 passage recalls and 1 email scenario. ${
+    recentExclusions.length > 0
+      ? `Avoid topics, scenarios, or correct answers related to or matching any of these specific terms/words: ${recentExclusions.join(', ')}.`
+      : ''
+  }`;
+
+  // Execute in parallel on Key A to save time
+  const [part1, part2] = await Promise.all([
+    callGroqWithJsonRetry(apiKey, model, systemPromptPart1, userPromptPart1, 0.9, 2),
+    callGroqWithJsonRetry(apiKey, model, systemPromptPart2, userPromptPart2, 0.9, 2)
+  ]);
+
+  const paper = {
+    paper_id: part2.paper_id || part1.paper_id || `${Date.now()}`,
+    sentence_completion: part1.sentence_completion,
+    passage_recall: part2.passage_recall,
+    email_writing: part2.email_writing
+  };
+
   // Validate basic schema integrity
   if (!paper.paper_id || !Array.isArray(paper.sentence_completion) || !Array.isArray(paper.passage_recall) || !paper.email_writing) {
     throw new Error('Generated paper does not conform to the required sections structure.');
