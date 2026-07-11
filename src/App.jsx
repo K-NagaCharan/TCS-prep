@@ -129,18 +129,23 @@ export default function App() {
     setApiError(null);
     setCurrentView('generating_paper');
     
-    // Gather last 5 attempts topic tags and email recipient roles to avoid repeating
+    // Gather last 5 attempts vocabulary words and email recipient roles to avoid repeating
     const exclusions = [];
     history.slice(-5).forEach(attempt => {
       if (attempt.paper?.sentence_completion) {
         attempt.paper.sentence_completion.forEach(q => {
-          if (q.topic_tag && !exclusions.includes(q.topic_tag)) {
-            exclusions.push(q.topic_tag);
+          if (q.acceptable_answers) {
+            q.acceptable_answers.forEach(word => {
+              const lowerWord = word.trim().toLowerCase();
+              if (lowerWord && !exclusions.includes(lowerWord)) {
+                exclusions.push(lowerWord);
+              }
+            });
           }
         });
       }
-      if (attempt.paper?.email_writing?.recipient_role && !exclusions.includes(attempt.paper.email_writing.recipient_role)) {
-        exclusions.push(attempt.paper.email_writing.recipient_role);
+      if (attempt.paper?.email_writing?.recipient_role && !exclusions.includes(attempt.paper.email_writing.recipient_role.toLowerCase())) {
+        exclusions.push(attempt.paper.email_writing.recipient_role.toLowerCase());
       }
     });
 

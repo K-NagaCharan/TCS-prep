@@ -124,7 +124,7 @@ OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matchi
   "passage_recall": [
     {
       "id": 21,
-      "paragraph": "exactly 4 sentences, workplace/general-interest register, 40-70 words total",
+      "paragraph": "exactly 4-5 sentences, workplace/general-interest register, 90-130 words total",
       "key_points": ["point 1 that must survive a good rewrite", "point 2", "point 3", "point 4"]
     }
     // ... exactly 4 items, ids 21-24
@@ -140,14 +140,15 @@ OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matchi
 
 CONTENT RULES:
 - Sentence completion: mix of vocabulary-in-context, collocations, idioms, analogies, tense/preposition agreement, and workplace-register word choice — matching real TCS NQT sentence-completion style, not generic grammar-book fill-blanks. Roughly 40% basic, 40% moderate, 20% typical/harder, shuffled in order (don't cluster all hard ones together).
+- Sentence completion uniqueness: Ensure every single one of the 20 sentence completion questions has a completely unique target vocabulary word, sentence theme, and grammatical construction. Do not repeat similar sentences, identical blanks, or closely related vocabulary words within the same paper.
 - Each sentence must be answerable in a single word or short phrase within 25 seconds by someone with intermediate English — no ambiguous blanks with many equally valid but unrelated answers.
-- Passage recall paragraphs: self-contained, no external knowledge needed, written so a careful reader could reconstruct the gist (not exact wording) after one 30-second read.
+- Passage recall paragraphs: self-contained, no external knowledge needed, written so a careful reader could reconstruct the gist (not exact wording) after one 30-second read. Ensure the word count is strictly between 90-130 words.
 - Email scenario: realistic corporate situations (delay notification, requesting leave/extension, escalating an issue, project handoff, thanking/following up, declining a request professionally). Do not repeat the same scenario type twice within one paper (n/a here, only one) or across calls if you can infer recent history from the seed.
 - Do not include any content unrelated to workplace/general-interest English; no coding, no domain-specific jargon requiring niche background knowledge.`;
 
   const userPrompt = `Generate a fresh practice paper. Make sure to adhere to all content rules. ${
     recentExclusions.length > 0
-      ? `Avoid topics, idioms, or scenarios related to: ${recentExclusions.join(', ')}.`
+      ? `Avoid topics, scenarios, or correct answers related to or matching any of these specific terms/words: ${recentExclusions.join(', ')}.`
       : ''
   }`;
 
