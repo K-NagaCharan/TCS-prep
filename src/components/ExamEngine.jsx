@@ -315,13 +315,22 @@ export default function ExamEngine({
                 ))}
               </ul>
             </div>
+            
+            <div style={{ marginTop: '0.5rem', borderTop: '1px dashed var(--border-color)', paddingTop: '0.75rem' }}>
+              <h4 style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+                Length Constraint
+              </h4>
+              <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--primary)' }}>
+                Write between 100 to 150 words.
+              </p>
+            </div>
           </div>
 
           {/* Typing Area */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <div className="form-group" style={{ flexGrow: 1, margin: 0 }}>
-              <label className="form-label" htmlFor="email-editor" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Mail size={16} /> Compose Email
+              <label className="form-label" htmlFor="email-editor" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Mail size={16} /> Compose Email</span>
               </label>
               <textarea
                 id="email-editor"
@@ -332,6 +341,27 @@ export default function ExamEngine({
                 onChange={handleTextChange}
                 autoFocus
               />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.35rem', fontSize: '0.85rem' }}>
+                {(() => {
+                  const getWordCount = (text) => {
+                    const trimmed = text.trim();
+                    if (!trimmed) return 0;
+                    return trimmed.split(/\s+/).filter(w => w.length > 0).length;
+                  };
+                  const count = getWordCount(userAnswer);
+                  const isOptimal = count >= 100 && count <= 150;
+                  return (
+                    <>
+                      <span style={{ color: isOptimal ? 'var(--success)' : 'var(--warning)', fontWeight: 600 }}>
+                        Word Count: {count} / Required 100-150 words
+                      </span>
+                      <span style={{ color: 'var(--text-muted)' }}>
+                        {count < 100 ? `${100 - count} more words required` : count > 150 ? `${count - 150} words over limit` : 'Length criteria met!'}
+                      </span>
+                    </>
+                  );
+                })()}
+              </div>
             </div>
           </div>
 

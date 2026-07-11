@@ -227,7 +227,7 @@ export default function Dashboard({ history, settings, onStartExam, onOpenSettin
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {history.map((attempt, index) => {
+                {[...history].reverse().map((attempt, index) => {
                   const scPct = (attempt.scores.sentence_completion / 20) * 100;
                   const prPct = (attempt.scores.passage_recall / 40) * 100;
                   const emailPct = (attempt.scores.email / 100) * 100;
@@ -271,7 +271,7 @@ export default function Dashboard({ history, settings, onStartExam, onOpenSettin
                       </div>
                     </div>
                   );
-                }).reverse()}
+                })}
               </div>
             )}
           </div>

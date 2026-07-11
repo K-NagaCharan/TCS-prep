@@ -143,7 +143,7 @@ CONTENT RULES:
 - Sentence completion uniqueness: Ensure every single one of the 20 sentence completion questions has a completely unique target vocabulary word, sentence theme, and grammatical construction. Do not repeat similar sentences, identical blanks, or closely related vocabulary words within the same paper.
 - Each sentence must be answerable in a single word or short phrase within 25 seconds by someone with intermediate English — no ambiguous blanks with many equally valid but unrelated answers.
 - Passage recall paragraphs: self-contained, no external knowledge needed, written so a careful reader could reconstruct the gist (not exact wording) after one 30-second read. Ensure the word count is strictly between 90-130 words.
-- Email scenario: realistic corporate situations (delay notification, requesting leave/extension, escalating an issue, project handoff, thanking/following up, declining a request professionally). Do not repeat the same scenario type twice within one paper (n/a here, only one) or across calls if you can infer recent history from the seed.
+- Email scenario: realistic corporate situations (delay notification, requesting leave/extension, escalating an issue, project handoff, thanking/following up, declining a request professionally). Do not repeat the same scenario type twice within one paper (n/a here, only one) or across calls if you can infer recent history from the seed. The scenario must explicitly require the candidate to write an email of at least 100 to 150 words.
 - Do not include any content unrelated to workplace/general-interest English; no coding, no domain-specific jargon requiring niche background knowledge.`;
 
   const userPrompt = `Generate a fresh practice paper. Make sure to adhere to all content rules. ${
@@ -232,8 +232,9 @@ Score 0-100 based on TCS-style workplace email criteria:
   - Coverage of all \`required_elements\` from the scenario (30%)
   - Tone appropriateness (formal/semi-formal as specified) (15%)
   - Grammar, spelling, punctuation (15%)
-  - Clarity and conciseness — no rambling, no missing context a recipient would need (15%)
-Give feedback as: 3-5 specific bullet points (what worked, what to fix), plus ONE rewritten example sentence for the weakest part of their email — not a full rewrite of the whole email, just enough to show the fix.
+  - Clarity, conciseness, and Word Count compliance (100-150 words) — penalize heavily if word count is under 100 or over 150 words (15%)
+Give feedback as: 3-5 specific bullet points (what worked, what to fix), plus ONE rewritten example sentence for the weakest part of their email.
+Also, you must provide a detailed_improvement_advice field which is a clear, context-rich analysis (100-150 words) explaining exactly how the candidate should rewrite their draft to achieve a perfect NQT standard, highlighting vocabulary suggestions, tone improvements, and grammatical correctness.
 
 OUTPUT FORMAT:
 
@@ -253,7 +254,8 @@ OUTPUT FORMAT:
       "structure": 20, "coverage": 22, "tone": 13, "grammar": 12, "clarity": 11
     },
     "feedback_bullets": ["string", "string", "string"],
-    "improved_example": "string, one rewritten sentence"
+    "improved_example": "string, one rewritten sentence",
+    "detailed_improvement_advice": "string, comprehensive analysis of how to improve"
   },
   "summary": {
     "sentence_completion_total": "x/20",

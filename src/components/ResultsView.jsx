@@ -413,6 +413,25 @@ export default function ResultsView({ paper, answers, report, onBack }) {
                 </div>
               </div>
             )}
+
+            {email_result.detailed_improvement_advice && (
+              <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
+                <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--primary)', marginBottom: '0.5rem' }}>
+                  Detailed Development Advice
+                </h4>
+                <div style={{
+                  fontSize: '0.95rem',
+                  lineHeight: '1.6',
+                  color: 'var(--text-secondary)',
+                  backgroundColor: 'var(--bg-tertiary)',
+                  padding: '1rem',
+                  borderRadius: '0.5rem',
+                  borderLeft: '3px solid var(--primary)'
+                }}>
+                  {email_result.detailed_improvement_advice}
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
