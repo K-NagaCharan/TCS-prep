@@ -10,7 +10,8 @@ A high-fidelity, premium Single Page Application (SPA) designed to simulate the 
 * **Cheating Defense**: Core questions are sanitized of answer keys, explanations, and recall requirements before rendering in the exam engine to prevent inspect-element leaks.
 * **Auto-Save & Refresh Recovery**: Active inputs and exam stages are auto-saved to `localStorage` on every keystroke. If you refresh or drop connection, the exam resumes with the timer correctly ticking down.
 * **Self-Correcting Timers**: Evaluates time via absolute target timestamps (`endTimestamp - Date.now()`) to bypass background browser tab timer throttling.
-* **Topic Injection Freshness**: Feeds the topic tags and scenarios of your last 5 attempts back into Key A's seed to prevent content overlap.
+* **Vocabulary-focused Freshness**: Feeds the exact correct vocabulary words and scenarios of your last 5 attempts back into Key A's generator to prevent repeat questions.
+* **Detailed Development Feedback**: The evaluator provides clear, context-rich improvement advice on vocabulary, tone, and grammar, highlighting exactly how to reach the NQT standard.
 * **Pure SVG Charting**: Renders metrics and score progress trends client-side with native SVG elements (no bloated charting libraries).
 
 ---
@@ -19,9 +20,9 @@ A high-fidelity, premium Single Page Application (SPA) designed to simulate the 
 
 | Section | Question Type | Count | Visibility | Timer | Regulations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Section 1** | Sentence Completion | 20 | Visible | **25s** per Q | Typed answer (no options/MCQs). Auto-advances. |
-| **Section 2** | Passage Recall | 4 | 30s visible, then hidden | **30s** read, **90s** write | Paragraph is hidden during the 90s writing phase. |
-| **Section 3** | Email Writing | 1 | Scenario stays visible | **540s** (9 min) | Corporate scenario compose panel. Auto-submits. |
+| **Section 1** | Sentence Completion | 20 | Visible | **25s** per Q | Typed answer (no options/MCQs). Shuffled difficulty. Covers academic science, literature, philosophy, and advanced grammar structures. |
+| **Section 2** | Passage Recall | 4 | 30s visible, then hidden | **30s** read, **90s** write | Paragraph is hidden during the 90s writing phase. Paragraph size is 90-130 words. |
+| **Section 3** | Email Writing | 1 | Scenario stays visible | **540s** (9 min) | Corporate scenario compose panel. Requires at least 100-150 words. Features live word counter in the UI. Graded for word count compliance. |
 
 ---
 
