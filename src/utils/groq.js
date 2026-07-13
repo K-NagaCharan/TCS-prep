@@ -125,27 +125,27 @@ OUTPUT FORMAT: Return ONLY valid JSON, no markdown fences, no commentary, matchi
 STRICT CONTENT & VARIETY RULES:
 1. Sentence completion: mix of vocabulary-in-context, collocations, idioms, analogies, tense/preposition agreement, and workplace-register word choice — matching real TCS NQT sentence-completion style.
 2. Shuffled Difficulty: Roughly 40% basic, 40% moderate, 20% typical/harder, shuffled in order (don't cluster all hard ones together).
-3. Context Variety: Each of the 20 questions MUST feature a scenario from a different corporate department or context from the list of 20 below. No two questions may share the same department context:
-   - 1. Customer Support / Service
-   - 2. Product Design / UX
-   - 3. Software Development / Engineering
-   - 4. Finance / Budgeting / Accounting
-   - 5. Legal / Corporate Law
-   - 6. Supply Chain / Logistics / Shipping
-   - 7. Public Relations (PR) / Brand Image
-   - 8. Cybersecurity / Network Security
-   - 9. Corporate Strategy / Board Leadership
-   - 10. Operations / Facilities / Office Management
-   - 11. Procurement / Vendor Sourcing
-   - 12. Sales / Account Management
-   - 13. Quality Control / QA Testing
-   - 14. Research & Development / R&D / Innovation
-   - 15. Workplace Safety / Occupational Health
-   - 16. Business Intelligence / Data Analytics
-   - 17. Internal Audit / Regulatory Compliance
-   - 18. Marketing / Social Media Campaign
-   - 19. Human Resources (HR) / Recruitment / Employee Relations
-   - 20. Project Management / Agile Operations
+3. Domain & Grammatical Variety: Each of the 20 questions MUST feature a different domain and testing focus (representing a mix of academic science, humanities, news, literature, and advanced grammar). Ensure all 20 categories are covered exactly once:
+   - 1. Academic Science / Research (e.g., archaeology, physics, medicine)
+   - 2. Humanities & Philosophy (e.g., theories of mind, historical consensus, sociology)
+   - 3. Corporate News & Scandals (e.g., resignation, financial audits, board decisions)
+   - 4. Art, Music, & Literature (e.g., prose style, mythological references, painting)
+   - 5. Environmental & Climate Studies (e.g., biodiversity, ecological shifts, resources)
+   - 6. Economics, Markets & Trade (e.g., stocks, inflation, supply fluctuations)
+   - 7. Advanced Conditional Structure (e.g., Had the team [past participle]..., they would have ______...)
+   - 8. Grammatical Inversion (e.g., Rarely/No sooner/Seldom [auxiliary] ______ [subject]...)
+   - 9. Subjunctive Mood (e.g., The rules require/insist that she ______ [base verb]...)
+   - 10. Concession & Contrast Conjunctions (e.g., Although/Despite/Notwithstanding ______...)
+   - 11. Complex Prepositional Collocations (e.g., good at, surprised by, apologize for, used to ______...)
+   - 12. Verb-Noun Collocations (e.g., strike a balance, reach a decision, pave the way)
+   - 13. Phrasal Verbs (e.g., break down, bring up, work out, turn down, give in)
+   - 14. Idiomatic Word Choice & Analogies
+   - 15. Workplace Vocabulary - Executive Roles & HR Policies
+   - 16. Technological Innovation & Data Analytics
+   - 17. Travel, Geography & Exploration
+   - 18. Medical Research & Healthcare
+   - 19. Public Relations, Communications & Speeches
+   - 20. Public Policy & Government Reforms
 4. Structural Uniqueness: Do not repeat similar sentence patterns, subject phrases, or templates (e.g. do not repeat "The IT department is responsible for...", "The marketing team is looking for..."). Each sentence must be structurally, grammatically, and contextually distinct.
 5. Answerability: Each sentence must be answerable in a single word or short phrase within 25 seconds by someone with intermediate English — no ambiguous blanks with many equally valid but unrelated answers.`;
 

@@ -14,6 +14,12 @@ export default function ExamEngine({
 }) {
   const [timeLeft, setTimeLeft] = useState(0);
   const timerRef = useRef(null);
+  const handleTimeoutRef = useRef(null);
+
+  // Keep ref up to date on every render
+  useEffect(() => {
+    handleTimeoutRef.current = handleTimeout;
+  });
 
   // Timer self-correcting sync
   useEffect(() => {
@@ -25,7 +31,9 @@ export default function ExamEngine({
 
       if (remaining <= 0) {
         clearInterval(timerRef.current);
-        handleTimeout();
+        if (handleTimeoutRef.current) {
+          handleTimeoutRef.current();
+        }
       }
     };
 
@@ -33,7 +41,7 @@ export default function ExamEngine({
     timerRef.current = setInterval(tick, 200);
 
     return () => clearInterval(timerRef.current);
-  }, [endTimestamp, activeSection, activeIndex, activePhase]);
+  }, [endTimestamp]);
 
   // Handle auto-submit on timeout
   const handleTimeout = () => {

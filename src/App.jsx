@@ -213,8 +213,12 @@ export default function App() {
     setCurrentView('grading_exam');
 
     try {
+      // Hydrate answers directly from localStorage to safeguard against stale react closures on timeouts
+      const cachedAnswersStr = localStorage.getItem('tcs_nqt_active_answers');
+      const answersToGrade = cachedAnswersStr ? JSON.parse(cachedAnswersStr) : activeAnswers;
+
       // Evaluate paper using Key B
-      const report = await evaluatePaper(settings.keyB, settings.modelB, activePaper, activeAnswers);
+      const report = await evaluatePaper(settings.keyB, settings.modelB, activePaper, answersToGrade);
       
       // Calculate final scores
       const scScore = report.sentence_completion_results.reduce((acc, r) => acc + r.score, 0);
@@ -231,7 +235,7 @@ export default function App() {
         },
         overall_note: report.summary?.overall_note || 'Grading completed.',
         paper: activePaper,
-        answers: activeAnswers,
+        answers: answersToGrade,
         report: report
       };
 
