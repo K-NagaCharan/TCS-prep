@@ -395,6 +395,15 @@ export default function ExamEngine({
     return 540; // email writing (9 mins)
   };
 
+  const handleQuitExam = () => {
+    if (window.confirm('Are you sure you want to quit the exam early and submit your current answers for grading? Unanswered questions will receive 0 marks.')) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      onSubmitExam();
+    }
+  };
+
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       
@@ -412,12 +421,28 @@ export default function ExamEngine({
           </span>
         </div>
 
-        {/* Global/Section Timer */}
-        <div className={`timer-container ${getTimerClass(getSectionDuration())}`}>
-          <Timer size={20} className={timeLeft <= 5 ? 'spin' : ''} />
-          <span style={{ fontFamily: 'var(--mono)', fontSize: '1.25rem' }}>
-            {formatTime(timeLeft)}
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          {/* Global/Section Timer */}
+          <div className={`timer-container ${getTimerClass(getSectionDuration())}`}>
+            <Timer size={20} className={timeLeft <= 5 ? 'spin' : ''} />
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '1.25rem' }}>
+              {formatTime(timeLeft)}
+            </span>
+          </div>
+
+          <button 
+            className="btn btn-secondary" 
+            style={{ 
+              backgroundColor: 'var(--danger-light)', 
+              color: 'var(--danger)', 
+              borderColor: 'var(--danger)',
+              fontWeight: '600',
+              padding: '0.5rem 1rem' 
+            }}
+            onClick={handleQuitExam}
+          >
+            Quit Exam
+          </button>
         </div>
       </div>
 
