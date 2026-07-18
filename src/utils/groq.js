@@ -140,12 +140,12 @@ STRICT CONTENT & VARIETY RULES:
    - 12. Verb-Noun Collocations (e.g., strike a balance, reach a decision, pave the way)
    - 13. Phrasal Verbs (e.g., break down, bring up, work out, turn down, give in)
    - 14. Idiomatic Word Choice & Analogies
-   - 15. Workplace Vocabulary - Executive Roles & HR Policies
-   - 16. Technological Innovation & Data Analytics
-   - 17. Travel, Geography & Exploration
-   - 18. Medical Research & Healthcare
-   - 19. Public Relations, Communications & Speeches
-   - 20. Public Policy & Government Reforms
+   - 15. Articles & Determiners (e.g., a, an, the, another, each, any, some)
+   - 16. Subject-Verb Agreement / Auxiliaries (e.g., has/have, was/were, is/are, there is/are, neither... nor agreement)
+   - 17. Time & Duration Prepositions (e.g., since, for, from, during, until)
+   - 18. Relative Pronouns & Clauses (e.g., who, whom, which, whose, that)
+   - 19. Pronoun Agreement & Reflexive Pronouns (e.g., himself, themselves, each other, one another)
+   - 20. Quantifiers & Degree Modifiers (e.g., many/much, few/little, highly, deeply, slightly)
 4. Structural Uniqueness: Do not repeat similar sentence patterns, subject phrases, or templates (e.g. do not repeat "The IT department is responsible for...", "The marketing team is looking for..."). Each sentence must be structurally, grammatically, and contextually distinct.
 5. Answerability: Each sentence must be answerable in a single word or short phrase within 25 seconds by someone with intermediate English — no ambiguous blanks with many equally valid but unrelated answers.`;
 
